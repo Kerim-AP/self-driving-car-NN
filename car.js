@@ -17,9 +17,11 @@ class Car{
     }
 
     update(roadBorders) {
-        this.#move();
-        this.polygon = this.#createPolygon();
-        this.damaged = this.#assessDamage(roadBorders);
+        if(!this.damaged) {
+            this.#move();
+            this.polygon = this.#createPolygon();
+            this.damaged = this.#assessDamage(roadBorders);
+        }
         this.sensor.update(roadBorders);
     }
 
@@ -97,6 +99,11 @@ class Car{
     }
 
     draw(ctx) {
+        if(this.damaged) {
+            ctx.fillStyle = "gray";
+        } else {
+            ctx.fillStyle = "black";
+        }
         ctx.beginPath();
         ctx.moveTo(this.polygon[0].x, this.polygon[0].y);
         for(let i=1; i<this.polygon.length; i++) {
